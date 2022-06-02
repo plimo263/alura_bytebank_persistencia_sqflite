@@ -3,22 +3,22 @@ import 'package:bytebank/models/contacts.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ContactDao {
-  static const String _tableName = 'contacts';
-  static const String _id = 'id';
-  static const String _name = 'name';
-  static const String _accountNumber = 'account_number';
+  static const String tableName = 'contacts';
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String accountNumber = 'account_number';
 
-  static const String tablesql = 'CREATE TABLE $_tableName ('
-      '$_id INTEGER PRIMARY KEY, '
-      '$_name TEXT, '
-      '$_accountNumber INTEGER'
+  static const String tablesql = 'CREATE TABLE $tableName ('
+      '$id INTEGER PRIMARY KEY, '
+      '$name TEXT, '
+      '$accountNumber INTEGER'
       ')';
 
   Future<int> save(Contacts contact) async {
     // Obter a referencia ao banco de dados
     final Database db = await getDatabase();
     Map<String, dynamic> contactMap = _toMap(contact);
-    return db.insert('contacts', contactMap);
+    return db.insert(ContactDao.tableName, contactMap);
   }
 
   Map<String, dynamic> _toMap(Contacts contact) {
@@ -33,7 +33,8 @@ class ContactDao {
     // Obter a referencia ao banco de dados
     final Database db = await getDatabase();
     //
-    final List<Map<String, dynamic>> rows = await db.query('contacts');
+    final List<Map<String, dynamic>> rows =
+        await db.query(ContactDao.tableName);
     return _toList(rows);
   }
 
