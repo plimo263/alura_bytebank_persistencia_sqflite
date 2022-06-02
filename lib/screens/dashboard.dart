@@ -1,3 +1,4 @@
+import 'package:bytebank/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
 import 'contacts_list.dart';
@@ -18,42 +19,88 @@ class Dashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset('images/bytebank_logo.png'),
-            Material(
-              color: Theme.of(context).primaryColor,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return const ContactsList();
-                    }),
-                  );
-                },
-                child: Container(
-                  width: 150,
-                  height: 100,
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Icon(
-                        Icons.people,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Contacts',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
+            SizedBox(
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _FeatureItem(
+                    icon: Icons.monetization_on,
+                    name: 'Transfer',
+                    onClick: () => _showContactsList(context),
                   ),
-                ),
+                  _FeatureItem(
+                    icon: Icons.description,
+                    name: 'Transaction Feed',
+                    onClick: () => _showTransactionsList(context),
+                  ),
+                ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  //
+  void _showContactsList(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return const ContactsList();
+      }),
+    );
+  }
+
+  _showTransactionsList(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return const TransactionsList();
+      }),
+    );
+  }
+}
+
+class _FeatureItem extends StatelessWidget {
+  final IconData icon;
+  final String name;
+  final Function onClick;
+
+  const _FeatureItem(
+      {Key? key, required this.icon, required this.name, required this.onClick})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Material(
+        color: Theme.of(context).primaryColor,
+        child: InkWell(
+          onTap: () => onClick(),
+          child: Container(
+            width: 150,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                ),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

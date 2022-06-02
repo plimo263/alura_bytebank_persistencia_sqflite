@@ -1,9 +1,11 @@
+import 'package:bytebank/http/webclient.dart';
 import 'package:bytebank/theme/style.dart';
 import 'package:flutter/material.dart';
 //
 import 'screens/dashboard.dart';
 
 void main() {
+  findAll();
   runApp(const MyApp());
 }
 
