@@ -1,10 +1,9 @@
-import 'dart:io';
+import 'package:http_interceptor/http_interceptor.dart';
+import 'interceptors/logging_interceptor.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
-void findAll() async {
-  final http.Response response =
-      await http.get(Uri.parse('http://192.168.0.69:8081/transactions'));
-  debugPrint(response.body);
-}
+// Interceptador para acompanhar atividades request/response
+final InterceptedClient client = InterceptedClient.build(
+  interceptors: [LoggingInterceptor()],
+);
+// URL base
+const baseURL = 'http://192.168.0.69:8081/transactions';

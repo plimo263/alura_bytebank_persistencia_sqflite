@@ -1,7 +1,9 @@
 import 'package:bytebank/database/contact_dao.dart';
 import 'package:bytebank/screens/contacts_form.dart';
+import 'package:bytebank/screens/transaction_form.dart';
 import 'package:flutter/material.dart';
 
+import '../components/progress.dart';
 import '../models/contacts.dart';
 
 class ContactsList extends StatefulWidget {
@@ -28,11 +30,7 @@ class _ContactsListState extends State<ContactsList> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.green,
-                ),
-              );
+              return const Progress();
             // Trabalhando com stream (pedacos de partes) pode usa-lo
             case ConnectionState.active:
               break;
@@ -43,7 +41,17 @@ class _ContactsListState extends State<ContactsList> {
                 return ListView.builder(
                   itemCount: contacts.length,
                   itemBuilder: (context, index) {
-                    return _ContactItem(contact: contacts[index]);
+                    return _ContactItem(
+                      contact: contacts[index],
+                      onClick: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TransactionForm(contact: contacts[index]),
+                          ),
+                        );
+                      },
+                    );
                   },
                 );
               }
@@ -71,13 +79,19 @@ class _ContactsListState extends State<ContactsList> {
 
 class _ContactItem extends StatelessWidget {
   final Contacts contact;
+  final Function onClick;
 
-  const _ContactItem({Key? key, required this.contact}) : super(key: key);
+  const _ContactItem({
+    Key? key,
+    required this.contact,
+    required this.onClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: () => onClick(),
         title: Text(
           contact.name,
           style: const TextStyle(

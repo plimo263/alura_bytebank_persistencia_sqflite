@@ -1,11 +1,20 @@
-import 'package:bytebank/http/webclient.dart';
 import 'package:bytebank/theme/style.dart';
 import 'package:flutter/material.dart';
 //
 import 'screens/dashboard.dart';
 
 void main() {
-  findAll();
+  // save(
+  //   Transaction(
+  //     2000,
+  //     Contacts(
+  //       0,
+  //       'Fran',
+  //       1500,
+  //     ),
+  //   ),
+  // ).then((transaction) => debugPrint(transaction.toString()));
+
   runApp(const MyApp());
 }
 
